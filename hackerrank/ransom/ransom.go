@@ -1,14 +1,27 @@
 package ransom
 
 import (
-    "fmt"
-    "os"
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
 )
 
-func Run(){
-    var l1, l2 string
-	fmt.Fscanln(os.Stdin, &l1)
-	fmt.Fscanln(os.Stdin, &l2)
+func Run() {
+	bio := bufio.NewReader(os.Stdin)
 
-	fmt.Println(l1 + l2)
+	var m, n int
+
+	fmt.Fscanf(bio, "%d %d\n", &m, &n)
+
+	line, _ := bio.ReadString('\n')
+	line2, _ := bio.ReadString('\n')
+
+	line = strings.Replace(line, "\n", "", -1)
+	line2 = strings.Replace(line2, "\n", "", -1)
+
+	fmt.Println(line)
+	fmt.Println(line2)
+	fmt.Println(m + n)
+
 }
