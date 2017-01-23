@@ -22,6 +22,6 @@ func Run() {
 
 	fmt.Println(line)
 	fmt.Println(line2)
-	fmt.Println(m + n)
+	//fmt.Println(m + n)
 
 }
