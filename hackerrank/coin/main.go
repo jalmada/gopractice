@@ -28,6 +28,50 @@ func Run() {
 			coinValues[i], _ = strconv.Atoi(cv)
 		}
 	}
-	fmt.Printf("%d - %d\n", value, noValues)
-	fmt.Println(coinValues)
+
+	operations := make([][]int, value+1)
+	for i := 0; i < value+1; i++ {
+		operations[i] = make([]int, noValues)
+		for j := 0; j < noValues; j++ {
+
+			operations[i][j] = -1
+		}
+	}
+
+	for i := 0; i < noValues; i++ {
+		operations[0][i] = 1
+	}
+
+	result := calc(coinValues, noValues, value, operations) //, "center", 0, "")
+
+	fmt.Println(result)
+}
+
+func calc(coinValues []int, noValues int, value int, operations [][]int) int { //, side string, id int, parentId string) int {
+
+	//fmt.Println(operations)
+
+	if noValues <= 0 && value > 0 {
+		return 0
+	}
+
+	if value < 0 {
+		return 0
+	}
+
+	if value == 0 {
+		return 1
+	}
+
+	if operations[value][noValues-1] > -1 {
+		//fmt.Println("Recursion Not Called")
+		return operations[value][noValues-1]
+	}
+
+	left := calc(coinValues, noValues-1, value, operations)
+	right := calc(coinValues, noValues, value-coinValues[noValues-1], operations)
+
+	operations[value][noValues-1] = left + right
+
+	return left + right
 }
