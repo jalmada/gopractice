@@ -11,17 +11,44 @@ func Run() {
 	bio := bufio.NewReader(os.Stdin)
 
 	var m, n int
-
+	result := "No"
 	fmt.Fscanf(bio, "%d %d\n", &m, &n)
 
-	line, _ := bio.ReadString('\n')
-	line2, _ := bio.ReadString('\n')
+	magazine, _ := bio.ReadString('\n')
+	note, _ := bio.ReadString('\n')
 
-	line = strings.Replace(line, "\n", "", -1)
-	line2 = strings.Replace(line2, "\n", "", -1)
+	magWords := strings.Split(strings.Replace(strings.Trim(magazine, " "), "\n", "", -1), " ")
+	noteWords := strings.Split(strings.Replace(strings.Trim(note, " "), "\n", "", -1), " ")
 
-	fmt.Println(line)
-	fmt.Println(line2)
-	fmt.Println(m + n)
+	if len(noteWords) > len(magWords) {
+		fmt.Println(result)
+		return
+	}
 
+	noteMap := make(map[string]int)
+	for _, nw := range noteWords {
+		if nw != "" {
+			if val, ok := noteMap[nw]; ok {
+				noteMap[nw] = val + 1
+			} else {
+				noteMap[nw] = 1
+			}
+		}
+	}
+
+	countNoteWords := len(noteWords)
+	for _, mw := range magWords {
+		if val, ok := noteMap[mw]; ok && val > 0 {
+			noteMap[mw] = val - 1
+			countNoteWords = countNoteWords - 1
+
+			if countNoteWords == 0 {
+				result = "Yes"
+				break
+			}
+		}
+
+	}
+
+	fmt.Println(result)
 }
