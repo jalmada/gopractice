@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+//Run the excersise
 func Run() {
 	bio := bufio.NewReader(os.Stdin)
 
