@@ -7,6 +7,7 @@ import (
 	"github.com/xaratustra/hackerrank/fibo"
 	"github.com/xaratustra/hackerrank/paren"
 	"github.com/xaratustra/hackerrank/ransom"
+	"github.com/xaratustra/hackerrank/stack"
 )
 
 func main() {
@@ -18,9 +19,10 @@ func main() {
 	fmt.Println("2) Coin Change")
 	fmt.Println("3) Fibonacci")
 	fmt.Println("4) Parenthesis Match")
+	fmt.Println("5) Two Stacks")
 	fmt.Println("------------------------------------")
 	//fmt.Scanln(&option)
-	option = 4
+	option = 5
 	if option == 1 {
 		fmt.Println("Running Ransom Note...")
 		ransom.Run()
@@ -33,5 +35,8 @@ func main() {
 	} else if option == 4 {
 		fmt.Println("Running Parenthesis Match...")
 		paren.Run()
+	} else if option == 5 {
+		fmt.Println("Running Stacks...")
+		stack.Run()
 	}
 }
