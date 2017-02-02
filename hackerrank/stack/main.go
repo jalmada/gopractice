@@ -24,7 +24,9 @@ func Run() {
 	stack := []string{}
 
 	for scanner.Scan() {
-		process(scanner.Text(), results, stack)
+		process(scanner.Text(), &results, &stack)
+		// fmt.Println(stack)
+		// fmt.Println(results)
 		count = count + 1
 		if count == num {
 			break
@@ -36,7 +38,7 @@ func Run() {
 	}
 }
 
-func process(instruction string, results []string, stack []string) {
+func process(instruction string, results *[]string, stack *[]string) {
 
 	num := "0"
 
@@ -58,43 +60,43 @@ func process(instruction string, results []string, stack []string) {
 			fmt.Println("Queue Value Missing")
 		} else {
 			queue(texts[1], stack)
+			//fmt.Println(stack)
 		}
 	case "2":
 		dequeue(stack)
 	case "3":
-		if len(stack) > 0 {
-			print(stack[0], results)
+		//fmt.Println(stack)
+		if len(*stack) > 0 {
+			print((*stack)[0], results)
 		}
 	default:
 		fmt.Println("Invalid Option")
 
 	}
 
-	fmt.Println(results)
+	//fmt.Println(results)
 }
 
-func queue(val string, stack []string) {
-	fmt.Println("Queue")
-	stack = append(stack, val)
-	fmt.Println("------")
-	fmt.Println(val)
-	fmt.Println(stack)
-}
-
-func dequeue(stack []string) {
-	fmt.Println("Dequeue")
-	stack = stack[1:]
-	fmt.Println("------")
-	fmt.Println(stack)
-}
-
-func print(val string, results []string) {
-	fmt.Println("Send to Print")
-	results = append(results, val)
-	fmt.Println("------")
-	fmt.Println(val)
-	fmt.Println(results)
+func queue(val string, stack *[]string) {
+	//fmt.Println("Queue")
+	*stack = append(*stack, val)
 	// fmt.Println("------")
 	// fmt.Println(val)
-	// fmt.Println(valtoprint)
+	// fmt.Println(stack)
+}
+
+func dequeue(stack *[]string) {
+	// fmt.Println("Dequeue")
+	*stack = (*stack)[1:]
+	// fmt.Println("------")
+	// fmt.Println(stack)
+}
+
+func print(val string, results *[]string) {
+	//fmt.Println("Send to Print")
+	*results = append(*results, val)
+	// fmt.Println("------")
+	// fmt.Println(val)
+	// fmt.Println(results)
+
 }
