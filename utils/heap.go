@@ -24,7 +24,7 @@ func NewMaxHeap() *Heap {
 	heap := Heap{}
 	heap.tp = true
 	heap.items = make([]int, 0)
-	heap.items = []int{10, 15, 20, 17}
+	//heap.items = []int{10, 15, 20, 17}
 	return &heap
 }
 
@@ -129,4 +129,9 @@ func (heap *Heap) parent(index int) int {
 //Print Heap
 func (heap *Heap) Print() {
 	fmt.Println(heap.items)
+}
+
+//Size of the Heap
+func (heap *Heap) Size() int {
+	return len(heap.items)
 }
