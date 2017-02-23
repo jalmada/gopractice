@@ -30,23 +30,44 @@ func Run() {
 	}
 	for scanner.Scan() {
 
+		// val, _ := strconv.Atoi(scanner.Text())
+		// if _, isEmpty := leftHeap.Peek(); isEmpty {
+		// 	leftHeap.Add(val)
+		// } else if leftRoot, _ := leftHeap.Peek(); val < leftRoot {
+		// 	if leftHeap.Size() > rightHeap.Size() {
+		// 		valToMove, _ := leftHeap.Poll()
+		// 		rightHeap.Add(valToMove)
+		// 	}
+
+		// 	leftHeap.Add(val)
+		// } else {
+		// 	if leftHeap.Size() < rightHeap.Size() {
+		// 		valToMove, _ := rightHeap.Poll()
+		// 		leftHeap.Add(valToMove)
+		// 	}
+
+		// 	rightHeap.Add(val)
+		// }
+
 		val, _ := strconv.Atoi(scanner.Text())
 		if _, isEmpty := leftHeap.Peek(); isEmpty {
 			leftHeap.Add(val)
-		} else if leftRoot, _ := leftHeap.Peek(); val < leftRoot {
-			if leftHeap.Size() > rightHeap.Size() {
-				valToMove, _ := leftHeap.Poll()
-				rightHeap.Add(valToMove)
+		} else if leftHeap.Size() < rightHeap.Size() {
+			if rightRoot, _ := rightHeap.Peek(); rightRoot < val {
+				rightRoot, _ = rightHeap.Poll()
+				leftHeap.Add(rightRoot)
+				rightHeap.Add(val)
+			} else {
+				leftHeap.Add(val)
 			}
-
-			leftHeap.Add(val)
 		} else {
-			if leftHeap.Size() < rightHeap.Size() {
-				valToMove, _ := rightHeap.Poll()
-				leftHeap.Add(valToMove)
+			if leftRoot, _ := leftHeap.Peek(); leftRoot > val {
+				leftRoot, _ = leftHeap.Poll()
+				rightHeap.Add(leftRoot)
+				leftHeap.Add(val)
+			} else {
+				rightHeap.Add(val)
 			}
-
-			rightHeap.Add(val)
 		}
 
 		leftPeek, _ := leftHeap.Peek()
@@ -58,6 +79,8 @@ func Run() {
 		} else {
 			fmt.Printf("%.1f\n", float32(leftPeek))
 		}
+		leftHeap.Print()
+		rightHeap.Print()
 		count = count + 1
 		if count == num {
 			break
