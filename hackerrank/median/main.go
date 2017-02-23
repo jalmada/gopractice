@@ -8,7 +8,8 @@ import (
 
 //Run Median test
 func Run() {
-	heap := utils.NewMinHeap()
+	//	heap := utils.NewMinHeap()
+	heap := utils.NewMaxHeap()
 	heap.Print()
 	fmt.Printf("Add: %v\n", 8)
 	heap.Add(8)

@@ -10,11 +10,20 @@ type Heap struct {
 	tp    bool
 }
 
-//NewMinHeap Creates a new Heap
+//NewMinHeap Creates a new Min Heap
 func NewMinHeap() *Heap {
 	heap := Heap{}
 	heap.tp = false
-	//heap.items = make([]int, 0)
+	heap.items = make([]int, 0)
+	//heap.items = []int{10, 15, 20, 17}
+	return &heap
+}
+
+//NewMaxHeap Creates a new Max Heap
+func NewMaxHeap() *Heap {
+	heap := Heap{}
+	heap.tp = true
+	heap.items = make([]int, 0)
 	heap.items = []int{10, 15, 20, 17}
 	return &heap
 }
@@ -50,18 +59,18 @@ func (heap *Heap) Poll() (int, bool) {
 func (heap *Heap) heapifyDown() {
 	index := 0
 	for heap.hasLeftChild(index) {
-		smallerChildIndex := heap.getLeftChildIndex(index)
-		if heap.hasRightChild(index) && heap.leftChild(index) > heap.rightChild(index) {
-			smallerChildIndex = heap.getRightChildIndex(index)
+		childIndex := heap.getLeftChildIndex(index)
+		if heap.hasRightChild(index) && ((!heap.tp && heap.leftChild(index) > heap.rightChild(index)) || (heap.tp && heap.leftChild(index) < heap.rightChild(index))) {
+			childIndex = heap.getRightChildIndex(index)
 		}
 
-		if heap.items[index] < heap.items[smallerChildIndex] {
+		if (!heap.tp && heap.items[index] < heap.items[childIndex]) || (heap.tp && heap.items[index] > heap.items[childIndex]) {
 			break
 		} else {
-			heap.swap(index, smallerChildIndex)
+			heap.swap(index, childIndex)
 		}
 
-		index = smallerChildIndex
+		index = childIndex
 	}
 
 }
@@ -69,7 +78,7 @@ func (heap *Heap) heapifyDown() {
 func (heap *Heap) heapifyUp() {
 	index := len(heap.items) - 1
 
-	for heap.hasParent(index) && heap.parent(index) > heap.items[index] {
+	for heap.hasParent(index) && ((!heap.tp && heap.parent(index) > heap.items[index]) || (heap.tp && heap.parent(index) < heap.items[index])) {
 		heap.swap(heap.getParentIndex(index), index)
 		index = heap.getParentIndex(index)
 	}
