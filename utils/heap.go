@@ -1,27 +1,27 @@
-package heap
+package utils
+
+import (
+	"fmt"
+)
 
 //Heap Classic Heap
 type Heap struct {
-	capacity int
-	size     int
-	items    []int
-	//Min = false, Max = true
-	tp bool
+	items []int
+	tp    bool
 }
 
 //NewMinHeap Creates a new Heap
 func NewMinHeap() *Heap {
 	heap := Heap{}
-	heap.capacity = 0
-	heap.size = 0
 	heap.tp = false
-	heap.items = make([]int, heap.size, heap.capacity)
-
+	//heap.items = make([]int, 0)
+	heap.items = []int{10, 15, 20, 17}
 	return &heap
 }
 
-func (heap *Heap) peek() (int, bool) {
-	if heap.size == 0 {
+//Peek the items array and retun the root value
+func (heap *Heap) Peek() (int, bool) {
+	if len(heap.items) == 0 {
 		return -1, true
 	}
 
@@ -34,14 +34,51 @@ func (heap *Heap) swap(index1 int, index2 int) {
 	heap.items[index2] = tmp
 }
 
-func (heap *Heap) ensureExtraCapacity() {
-	if heap.size == heap.capacity {
-		tmp := make([]int, len(heap.items), (cap(heap.items)+1)*2)
-		for i := range heap.items {
-			tmp[i] = heap.items[i]
-		}
-		heap.items = tmp
+//Poll the root and reorganizes the heap
+func (heap *Heap) Poll() (int, bool) {
+	if len(heap.items) == 0 {
+		return -1, true
 	}
+
+	item := heap.items[0]
+	heap.items[0] = heap.items[len(heap.items)-1]
+	heap.items = heap.items[:len(heap.items)-1]
+	heap.heapifyDown()
+	return item, false
+}
+
+func (heap *Heap) heapifyDown() {
+	index := 0
+	for heap.hasLeftChild(index) {
+		smallerChildIndex := heap.getLeftChildIndex(index)
+		if heap.hasRightChild(index) && heap.leftChild(index) > heap.rightChild(index) {
+			smallerChildIndex = heap.getRightChildIndex(index)
+		}
+
+		if heap.items[index] < heap.items[smallerChildIndex] {
+			break
+		} else {
+			heap.swap(index, smallerChildIndex)
+		}
+
+		index = smallerChildIndex
+	}
+
+}
+
+func (heap *Heap) heapifyUp() {
+	index := len(heap.items) - 1
+
+	for heap.hasParent(index) && heap.parent(index) > heap.items[index] {
+		heap.swap(heap.getParentIndex(index), index)
+		index = heap.getParentIndex(index)
+	}
+}
+
+//Add a new item and reorganized
+func (heap *Heap) Add(item int) {
+	heap.items = append(heap.items, item)
+	heap.heapifyUp()
 }
 
 func (heap *Heap) getLeftChildIndex(parentIndex int) int {
@@ -57,15 +94,15 @@ func (heap *Heap) getParentIndex(childIndex int) int {
 }
 
 func (heap *Heap) hasLeftChild(index int) bool {
-	return heap.getLeftChildIndex(index) < heap.size
+	return heap.getLeftChildIndex(index) < len(heap.items)
 }
 
 func (heap *Heap) hasRightChild(index int) bool {
-	return heap.getRightChildIndex(index) < heap.size
+	return heap.getRightChildIndex(index) < len(heap.items)
 }
 
 func (heap *Heap) hasParent(index int) bool {
-	return heap.getParentIndex(index) > 0
+	return heap.getParentIndex(index) >= 0
 }
 
 func (heap *Heap) leftChild(index int) int {
@@ -78,4 +115,9 @@ func (heap *Heap) rightChild(index int) int {
 
 func (heap *Heap) parent(index int) int {
 	return heap.items[heap.getParentIndex(index)]
+}
+
+//Print Heap
+func (heap *Heap) Print() {
+	fmt.Println(heap.items)
 }
