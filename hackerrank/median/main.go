@@ -29,26 +29,6 @@ func Run() {
 		return
 	}
 	for scanner.Scan() {
-
-		// val, _ := strconv.Atoi(scanner.Text())
-		// if _, isEmpty := leftHeap.Peek(); isEmpty {
-		// 	leftHeap.Add(val)
-		// } else if leftRoot, _ := leftHeap.Peek(); val < leftRoot {
-		// 	if leftHeap.Size() > rightHeap.Size() {
-		// 		valToMove, _ := leftHeap.Poll()
-		// 		rightHeap.Add(valToMove)
-		// 	}
-
-		// 	leftHeap.Add(val)
-		// } else {
-		// 	if leftHeap.Size() < rightHeap.Size() {
-		// 		valToMove, _ := rightHeap.Poll()
-		// 		leftHeap.Add(valToMove)
-		// 	}
-
-		// 	rightHeap.Add(val)
-		// }
-
 		val, _ := strconv.Atoi(scanner.Text())
 		if _, isEmpty := leftHeap.Peek(); isEmpty {
 			leftHeap.Add(val)
@@ -79,8 +59,8 @@ func Run() {
 		} else {
 			fmt.Printf("%.1f\n", float32(leftPeek))
 		}
-		leftHeap.Print()
-		rightHeap.Print()
+		// leftHeap.Print()
+		// rightHeap.Print()
 		count = count + 1
 		if count == num {
 			break
